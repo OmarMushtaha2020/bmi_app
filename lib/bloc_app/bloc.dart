@@ -16,56 +16,89 @@ class BlocApp extends Bloc<AppEvent, AppState> {
   @override
   Stream<AppState> mapEventToState(AppEvent event) async* {
     if (event is GenderSelected) {
-      yield* selectTypeGender(event.gender!);
+    yield* _mapGenderSelectedToState(event.gender);
+
     }
     if (event is SliderValueChanged) {
+      yield* _mapSliderValueChangedToState(event.value);
 
-      yield* changeValueOfSlider(event.value);
     }
     if (event is IncreaseAge) {
-      yield* increaseMyAge();
+      yield* _mapIncreaseAgeToState();
     }
     if (event is ReduceAge) {
-      yield* reduceMyAge();
+      yield* _mapReduceAgeToState();
+
     }
     if (event is IncreaseWeight) {
-      yield* increaseMyWeight();
+      yield* _mapIncreaseWeightToState();
+
     }
     if (event is ReduceWeight) {
-      yield* reduceMyWeight();
+      yield* _mapReduceWeightToState();
     }
   }
 
 
-
-
-  Stream<AppState> selectTypeGender(bool value) async*{
-    isMale = value;
-    yield GenderSelectedSuccessfully();
+  Stream<AppState> _mapGenderSelectedToState(bool  ?gender) async* {
+    try {
+      await selectTypeGender(gender!);
+      yield GenderSelectedSuccessfully();
+    } catch (error) {
+      yield GenderSelectedFailed();
+    }
   }
 
-  Stream<AppState> changeValueOfSlider(value) async*{
-    number = value;
+  Stream<AppState> _mapSliderValueChangedToState(double ?value) async* {
+    changeValueOfSlider(value);
     yield SliderValueChangedSuccessfully();
   }
 
-  Stream<AppState> increaseMyAge()  async* {
-    age++;
+  Stream<AppState> _mapIncreaseAgeToState() async* {
+    increaseMyAge();
     yield IncreaseAgeSuccessfully();
   }
 
-  Stream<AppState>  reduceMyAge()async* {
-    age--;
-    yield ReduceAgeSuccessfully() ;
+  Stream<AppState> _mapReduceAgeToState() async* {
+    reduceMyAge();
+    yield ReduceAgeSuccessfully();
   }
 
-  Stream<AppState> increaseMyWeight() async*{
-    weight++;
+  Stream<AppState> _mapIncreaseWeightToState() async* {
+    increaseMyWeight();
     yield IncreaseWeightSuccessfully();
   }
 
-  Stream<AppState> reduceMyWeight()async* {
+  Stream<AppState> _mapReduceWeightToState() async* {
+    reduceMyWeight();
+    yield ReduceWeightSuccessfully();
+  }
+
+
+selectTypeGender(bool value) async {
+    isMale = value;
+  }
+
+   changeValueOfSlider(value) {
+    number = value;
+
+  }
+
+   increaseMyAge()  {
+    age++;
+
+  }
+
+    reduceMyAge() {
+    age--;
+
+  }
+
+   increaseMyWeight() {
+    weight++;
+  }
+
+   reduceMyWeight() {
     weight--;
-    yield ReduceWeightSuccessfully() ;
   }
 }

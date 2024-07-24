@@ -1,21 +1,26 @@
 import 'package:bmi_app/bloc_app/bloc.dart';
+import 'package:bmi_app/shared/bloc_observer/bloc_observer.dart';
 import 'package:bmi_app/shared/route/app_route.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
-void main() =>
-    runApp(
-      DevicePreview(
-        builder: (context) =>
-            BlocProvider(
-              create: (context) => BlocApp(),
+void main() {
+  Bloc.observer = BlocObserverToApp();
 
-              child: MyApp(),
-            ), // Wrap your app
-      ),
-    );
+  runApp(
+    DevicePreview(
+      builder: (context) =>
+          BlocProvider(
+            create: (context) => BlocApp(),
+
+            child: MyApp(),
+          ), // Wrap your app
+    ),
+  );
+}
+
 
 
 class MyApp extends StatelessWidget {
