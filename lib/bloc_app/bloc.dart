@@ -53,6 +53,7 @@ class BlocApp extends Bloc<AppEvent, AppState> {
     changeValueOfSlider(value);
     yield SliderValueChangedSuccessfully();
   }
+//com.example.my.bmi_app
 
   Stream<AppState> _mapIncreaseAgeToState() async* {
     increaseMyAge();
